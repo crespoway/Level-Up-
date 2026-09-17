@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Level Up — The W-2 Power Path | Crespo Growth Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1B1F3B;
+  --paper:#FFFDF6;
+  --hero:#FFC928;
+  --power:#2F6BFF;
+  --danger:#F0445C;
+  --clear:#1FAE74;
+  --soft:#5A5F80;
+  --comic:'Bangers','Impact',sans-serif;
+  --body:'Nunito',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink);
+  background-image:radial-gradient(rgba(255,255,255,.07) 1.2px,transparent 1.3px);
+  background-size:14px 14px;
+  color:var(--ink);font-family:var(--body);font-size:19px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.shell{max-width:560px;margin:0 auto;padding:16px 12px 110px}
+.top{display:flex;justify-content:space-between;align-items:center;color:var(--paper);padding:4px 4px 14px;font-weight:900;font-size:13px}
+.top .brand span{color:var(--hero)}
+.top .xp{font-family:var(--comic);font-size:18px;letter-spacing:.04em;color:var(--hero)}
+
+.page{display:none;background:var(--paper);border:4px solid #000;border-radius:6px;box-shadow:8px 8px 0 var(--hero);padding:26px 22px 26px;position:relative;overflow:hidden}
+.page.active{display:block}
+
+/* level badge with speed lines */
+.lvl{position:relative;margin:-26px -22px 20px;padding:22px 22px 18px;color:var(--paper);background:var(--power);border-bottom:4px solid #000;overflow:hidden}
+.lvl::before{content:"";position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg at 85% 50%,rgba(255,255,255,.14) 0 4deg,transparent 4deg 14deg)}
+.lvl > *{position:relative}
+.lvl .num{font-family:var(--comic);font-size:20px;letter-spacing:.06em;color:var(--hero);-webkit-text-stroke:.5px #000}
+.lvl h2{font-family:var(--comic);font-weight:400;font-size:clamp(38px,11vw,52px);line-height:.95;letter-spacing:.02em;margin:4px 0 0;text-shadow:3px 3px 0 #000}
+.p0 .lvl{background:var(--danger)}
+.p5 .lvl{background:var(--clear)}
+
+p{margin:0 0 16px;max-width:36ch}
+.big{font-size:22px;font-weight:900;line-height:1.35}
+b{font-weight:900}
+
+/* speech bubble */
+.bubble{position:relative;background:#fff;border:3px solid #000;border-radius:22px;padding:14px 18px;margin:18px 0 26px;font-weight:700}
+.bubble::after{content:"";position:absolute;left:34px;bottom:-16px;border:8px solid transparent;border-top:12px solid #000}
+.bubble::before{content:"";position:absolute;left:37px;bottom:-9px;border:5px solid transparent;border-top:8px solid #fff;z-index:1}
+.bubble .who{display:block;font-family:var(--comic);font-size:17px;letter-spacing:.05em;color:var(--power)}
+.bubble p{margin:0;max-width:none}
+
+/* the power path map */
+.map{list-style:none;margin:18px 0;padding:0}
+.map li{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-weight:900;font-size:17px}
+.map li span{flex:none;width:34px;height:34px;border:3px solid #000;border-radius:50%;background:var(--hero);font-family:var(--comic);font-size:18px;display:flex;align-items:center;justify-content:center}
+
+/* steps */
+.steps{list-style:none;margin:10px 0 18px;padding:0}
+.steps li{position:relative;padding-left:34px;margin-bottom:12px;max-width:36ch}
+.steps li::before{content:"★";position:absolute;left:0;top:0;color:var(--power);font-size:22px;line-height:1.2}
+
+/* boxes */
+.box{border:3px solid #000;border-radius:6px;padding:14px 16px;margin:18px 0}
+.box .t{font-family:var(--comic);font-size:22px;letter-spacing:.04em;margin-bottom:4px}
+.box p{margin:0 0 8px;max-width:none}
+.box p:last-child{margin:0}
+.trap{background:#FFE3E7}
+.trap .t{color:var(--danger)}
+.tip{background:#E6EEFF}
+.tip .t{color:var(--power)}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.vs div{border:3px solid #000;border-radius:6px;padding:12px;font-size:16px;line-height:1.45}
+.vs .no{background:#FFE3E7}
+.vs .yes{background:#E3F7EE}
+.vs strong{display:block;font-family:var(--comic);font-size:20px;letter-spacing:.04em;font-weight:400}
+
+.scene{border:3px solid #000;border-radius:6px;margin:22px 0 4px;background:#fff;overflow:hidden}
+.scene .hd{background:var(--hero);border-bottom:3px solid #000;padding:6px 14px;font-family:var(--comic);font-size:19px;letter-spacing:.05em}
+.scene .ln{padding:8px 14px 0;font-size:17px;line-height:1.45}
+.scene .ln b{font-family:var(--comic);font-weight:400;font-size:17px;letter-spacing:.05em;color:var(--power);margin-right:4px}
+.scene .aha{margin:12px 0 0;padding:10px 14px 12px;background:var(--ink);color:var(--paper);font-weight:900;font-size:17px;line-height:1.4}
+.scene .aha span{font-family:var(--comic);font-weight:400;font-size:24px;letter-spacing:.06em;color:var(--hero);margin-right:6px;text-shadow:2px 2px 0 var(--danger)}
+/* checkpoint */
+.clear{background:var(--ink);color:var(--paper);margin:22px -22px -26px;padding:18px 22px 22px;border-top:4px solid #000}
+.clear .t{font-family:var(--comic);font-size:24px;letter-spacing:.05em;color:var(--hero)}
+.clear p{margin:4px 0 12px;max-width:none}
+.clear .move{border-top:2px dashed rgba(255,255,255,.3);padding-top:12px;margin:0}
+
+.foot{color:rgba(255,253,246,.55);font-size:12.5px;line-height:1.5;margin-top:22px;padding:0 4px}
+
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--ink);border-top:3px solid var(--hero);padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:5}
+nav button{font-family:var(--comic);font-size:20px;letter-spacing:.05em;background:var(--hero);color:#000;border:3px solid #000;border-radius:6px;padding:8px 18px;cursor:pointer;box-shadow:3px 3px 0 #000}
+nav button:disabled{opacity:.3;cursor:default;box-shadow:none}
+nav button:focus-visible,.dot:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.dots{display:flex;gap:6px}
+.dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--hero);background:transparent;padding:0;cursor:pointer}
+.dot.on{background:var(--hero)}
+@media (prefers-reduced-motion:no-preference){
+  .page.active .lvl h2{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><div class="brand">CRESPO GROWTH <span>SOLUTIONS</span></div><div class="xp" id="status">1 / 6</div></div>
+
+  <!-- PAGE 1 -->
+  <section class="page p0">
+    <div class="lvl"><div class="num">Level 0 · Start</div><h2>You're not stuck</h2></div>
+    <div class="bubble"><span class="who">Gio</span><p>I grew up where you grew up. Same noise. Same stress. Same feeling like the walls were closing in.</p></div>
+    <p>I didn't win the lotto. I didn't have a rich uncle.</p>
+    <p class="big">I used a regular job as my first power-up.</p>
+    <p>Then I leveled up one step at a time. Here's the whole path:</p>
+    <ol class="map">
+      <li><span>1</span>Get a job + your own space</li>
+      <li><span>2</span>Read your credit report</li>
+      <li><span>3</span>Build your credit</li>
+      <li><span>4</span>Start a business the right way</li>
+      <li><span>5</span>Make money and go your own way</li>
+    </ol>
+    <p>You can't skip levels. Every level unlocks the next one.</p>
+    <div class="scene"><div class="hd">Scene: the stoop</div><div class="ln"><b>Kenny:</b>I wanna move, bro. But I got no money.</div><div class="ln"><b>Gio:</b>I didn't either. I had a job.</div><div class="ln"><b>Kenny:</b>A job? That's the trap, though.</div><div class="ln"><b>Gio:</b>Only if the check just disappears. Mine became the key.</div><div class="aha"><span>AHA!</span>The job isn't the trap. It's the first step on the ladder.</div></div>
+    <div class="clear">
+      <div class="t">Level clear when…</div>
+      <p>You decide you're doing this. That's it.</p>
+      <p class="move"><b>Power move:</b> Keep reading. Don't spend a dollar yet.</p>
+    </div>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section class="page">
+    <div class="lvl"><div class="num">Level 1</div><h2>Job + your own space</h2></div>
+    <p>A W-2 job is a regular job where taxes come out of your check.</p>
+    <p class="big">That check is your first superpower.</p>
+    <p>Why? Because landlords and banks want to see steady pay.</p>
+    <ul class="steps">
+      <li>Get a steady job. Show up. Keep it.</li>
+      <li>Use your pay stubs to rent a room in a calmer neighborhood.</li>
+      <li>Try to keep rent to about a third of your pay or less.</li>
+    </ul>
+    <div class="vs">
+      <div class="no"><strong>Chaos</strong>Noise, stress, no sleep. Hard to think.</div>
+      <div class="yes"><strong>Peace</strong>Quiet room. Clear head. Now you can plan.</div>
+    </div>
+    <p><b>Peace → Focus → Momentum.</b> That's how it started for me.</p>
+    <div class="box trap"><div class="t">Boss trap</div><p>Never send a deposit for a room you haven't seen in person. Room scams are everywhere.</p></div>
+    <div class="scene"><div class="hd">Scene: the room showing</div><div class="ln"><b>Landlord:</b>Room's $950. Can you show proof of income?</div><div class="ln"><b>Kenny:</b>Here's my last 4 pay stubs.</div><div class="ln"><b>Landlord:</b>Steady. You're good.</div><div class="ln"><b>Kenny's cousin:</b>Wait... they didn't even ask about my side hustle cash?</div><div class="ln"><b>Landlord:</b>Can't prove cash. Stubs I can prove.</div><div class="aha"><span>AHA!</span>Your check opens doors that hustle cash can't, because it's on paper.</div></div>
+    <div class="clear">
+      <div class="t">Level clear when…</div>
+      <p>You have steady pay and a place where you can sleep and think.</p>
+      <p class="move"><b>Power move:</b> Save your pay stubs in one folder. You'll need them.</p>
+    </div>
+  </section>
+
+  <!-- PAGE 3 -->
+  <section class="page">
+    <div class="lvl"><div class="num">Level 2</div><h2>Read your report card</h2></div>
+    <p>Your credit report is like a report card for money. Banks read it before they say yes or no.</p>
+    <p class="big">You can't fix what you never read.</p>
+    <div class="box tip"><div class="t">Where to get it</div><p><b>AnnualCreditReport.com</b> — free, all three reports. That's the real one.</p></div>
+    <p>Look for anything bad, like <b>collections</b> (old bills a company is chasing). Next to each one, write one word: <b>right</b> or <b>wrong</b>.</p>
+    <ul class="steps">
+      <li><b>Wrong?</b> Challenge it. It's free. They have to prove it or remove it.</li>
+      <li><b>Right?</b> Ask them to <b>remove it</b> if you pay. Get that promise <b>in writing first.</b></li>
+    </ul>
+    <div class="box trap"><div class="t">Boss trap</div><p>"Just settle it" can backfire. It may barely help your score. And paying on a very old debt can restart it in some states. Look up your state first.</p></div>
+    <p>Nothing bad on your report? You're ahead. Skip to Level 3.</p>
+    <div class="scene"><div class="hd">Scene: the collector calls</div><div class="ln"><b>Collector:</b>Pay $600 today and we'll mark it settled.</div><div class="ln"><b>Kenny:</b>I'll pay if you remove it from my report. In writing first.</div><div class="ln"><b>Collector:</b>We don't usually do that.</div><div class="ln"><b>Kenny:</b>Then I'll keep my money for now.</div><div class="aha"><span>AHA!</span>"Settled" still sits on your report. "Removed" is gone. Only pay for gone.</div></div>
+    <div class="clear">
+      <div class="t">Level clear when…</div>
+      <p>You've read all three reports and made a plan for every bad mark.</p>
+      <p class="move"><b>Power move:</b> Pull your reports this week.</p>
+    </div>
+  </section>
+
+  <!-- PAGE 4 -->
+  <section class="page">
+    <div class="lvl"><div class="num">Level 3</div><h2>Build your credit</h2></div>
+    <p>Big banks mostly look at your numbers. A <b>credit union</b> is a smaller bank owned by its members, and it can also see how you handle your money there.</p>
+    <ul class="steps">
+      <li>Join a credit union. Send your paycheck there.</li>
+      <li>Open a <b>secured card</b>. You put down a deposit, like $200–$300. That's your limit.</li>
+      <li>Put <b>one small bill</b> on it, like your phone.</li>
+      <li>Pay it off in full every month.</li>
+    </ul>
+    <div class="bubble"><span class="who">Gio</span><p>Paycheck alone isn't enough. You need both halves: steady deposits AND a card you handle well.</p></div>
+    <div class="vs">
+      <div class="no"><strong>Rush</strong>Applies for 3 cards in one week. Gets denied. Looks desperate.</div>
+      <div class="yes"><strong>Patience</strong>One card. Pays it right. Asks for more after months of good history.</div>
+    </div>
+    <div class="scene"><div class="hd">Scene: day 90, two doors</div><div class="ln"><b>Big bank letter:</b>Denied. Not enough history.</div><div class="ln"><b>Credit union:</b>We see 90 days of deposits and a card paid perfectly. Let's talk about raising your limit.</div><div class="ln"><b>Kenny:</b>Same me. Same 90 days.</div><div class="aha"><span>AHA!</span>One place counts your balance. The other counts your effort.</div></div>
+    <div class="clear">
+      <div class="t">Level clear when…</div>
+      <p>90 days of on-time payments, low balance, and a clean report.</p>
+      <p class="move"><b>Power move:</b> Mark 90 days from today on your calendar. The clock is running.</p>
+    </div>
+  </section>
+
+  <!-- PAGE 5 -->
+  <section class="page">
+    <div class="lvl"><div class="num">Level 4</div><h2>Business the right way</h2></div>
+    <p>Now you can open an <b>LLC</b>, which is a simple business registration. Look up your state's real cost first. Never use rent money.</p>
+    <p class="big">Secret: you have TWO report cards.</p>
+    <div class="vs">
+      <div class="yes"><strong>You</strong>Your personal credit. Levels 2–3.</div>
+      <div class="yes"><strong>Your business</strong>A totally separate report card.</div>
+    </div>
+    <p>Paying business bills does <b>not</b> raise your personal score. Different scoreboards.</p>
+    <p>To build business credit, open supply accounts that let you pay in 30 days. Before you open one, <b>call and ask:</b></p>
+    <div class="bubble"><span class="who">You</span><p>"Do you report my payments to the business credit bureaus? Which ones?"</p></div>
+    <ul class="steps">
+      <li>Pay early, not just on time.</li>
+      <li>Start with two accounts, not six.</li>
+    </ul>
+    <div class="box trap"><div class="t">Boss trap</div><p>Most business credit cards make <b>you</b> promise to pay if the business can't. An LLC won't protect you from that.</p></div>
+    <div class="scene"><div class="hd">Scene: six months later</div><div class="ln"><b>Kenny:</b>I paid my supply accounts early for 6 months!</div><div class="ln"><b>Lender:</b>I checked your business file. It's blank.</div><div class="ln"><b>Kenny:</b>How?!</div><div class="ln"><b>Lender:</b>Your supplier reports somewhere else. Or not at all.</div><div class="aha"><span>AHA!</span>Paying perfectly means nothing if nobody is keeping score. Call first, then open.</div></div>
+    <div class="clear">
+      <div class="t">Level clear when…</div>
+      <p>Your business has its own name, bank account, and two accounts reporting.</p>
+      <p class="move"><b>Power move:</b> Call one supplier. Ask the question. Write down the answer.</p>
+    </div>
+  </section>
+
+  <!-- PAGE 6 -->
+  <section class="page p5">
+    <div class="lvl"><div class="num">Level 5 · Boss level</div><h2>Make money. Go free.</h2></div>
+    <p>Learn one real skill. For me, it was <b>reselling</b>: buy things cheap, sell them for more.</p>
+    <ul class="steps">
+      <li>Start small with your own money.</li>
+      <li>Track every dollar in and out.</li>
+      <li>Put profit back into the business.</li>
+    </ul>
+    <div class="box tip"><div class="t">When to leave the W-2</div><p>Don't quit on a good month. Quit when your business pays your bills for several months <b>in a row</b> and you have savings to fall back on.</p></div>
+    <div class="box trap"><div class="t">Final boss: scams</div><p>Skip "credit privacy numbers," fake income on applications, and "secret" credit tricks. They're fraud or they don't work. The real path is slower, and it's real.</p></div>
+    <div class="bubble"><span class="who">Gio</span><p>We came from the same place. I activated my superpower. You can activate yours too. ⚡</p></div>
+    <div class="scene"><div class="hd">Scene: the big month</div><div class="ln"><b>Kenny:</b>Made $3,000 reselling this month! I'm quitting tomorrow.</div><div class="ln"><b>Gio:</b>How many months in a row?</div><div class="ln"><b>Kenny:</b>...One.</div><div class="ln"><b>Gio:</b>Then that's a win, not a paycheck. Stack more months first.</div><div class="aha"><span>AHA!</span>One good month is a win. Many months in a row, plus savings, is freedom.</div></div>
+    <div class="clear">
+      <div class="t">Game clear when…</div>
+      <p>Your business pays you, and the W-2 is a choice, not a need.</p>
+      <p class="move"><b>Start right now:</b> AnnualCreditReport.com</p>
+    </div>
+  </section>
+
+  <p class="foot">Educational only. Not legal, tax, or financial advice. No results are promised. Rules and company policies change, so confirm details before you act.</p>
+</div>
+
+<nav>
+  <button id="prev" type="button">Back</button>
+  <div class="dots" id="dots"></div>
+  <button id="next" type="button">Next</button>
+</nav>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page')),dots=document.getElementById('dots'),
+      prev=document.getElementById('prev'),next=document.getElementById('next'),st=document.getElementById('status'),i=0;
+  pages.forEach(function(_,n){var b=document.createElement('button');b.className='dot';b.type='button';
+    b.setAttribute('aria-label','Go to level page '+(n+1));b.onclick=function(){go(n)};dots.appendChild(b)});
+  function go(n){i=Math.max(0,Math.min(pages.length-1,n));
+    pages.forEach(function(p,k){p.classList.toggle('active',k===i)});
+    [].forEach.call(dots.children,function(d,k){d.classList.toggle('on',k===i)});
+    prev.disabled=i===0;next.disabled=i===pages.length-1;st.textContent=(i+1)+' / '+pages.length;window.scrollTo(0,0)}
+  prev.onclick=function(){go(i-1)};next.onclick=function(){go(i+1)};
+  document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(i+1);if(e.key==='ArrowLeft')go(i-1)});
+  go(0);
+})();
+</script>
+</body>
+</html>
